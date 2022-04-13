@@ -75,7 +75,16 @@ public class DepositLocationController {
     @WeaverValidation(method = { @WeaverValidation.Method(value = REORDER, model = DepositLocation.class, params = { "0", "1" }) })
     public ApiResponse reorderDepositLocations(@PathVariable Long src, @PathVariable Long dest) {
         logger.info("Reordering custom action definitions");
-        depositLocationRepo.reorder(src, dest);
+        if(src == dest){
+          //Need to pass DepositLocation id rather than instance.  Usurping reorder for now for proof of concept.
+          logger.info("FSS Delete deposit location "+src);
+          DepositLocation removeDepositLocation = depositLocationRepo.findByPosition(src);
+          depositLocationRepo.remove(removeDepositLocation);
+          logger.info("FSS Deleted deposit location");
+          //Need to renumber the display otherwise the deleted leaves an ordinal gap
+        }else{
+          depositLocationRepo.reorder(src, dest);
+        }
         return new ApiResponse(SUCCESS);
     }
 

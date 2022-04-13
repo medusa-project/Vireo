@@ -102,7 +102,10 @@ vireo.controller("DepositLocationRepoController", function ($controller, $scope,
         };
 
         $scope.removeDepositLocation = function () {
-            $scope.modalData.delete();
+            //$scope.modalData.delete();
+            alert("FSS Deleting "+$scope.modalData.name+" with ID "+$scope.modalData.id);
+            $scope.closeModal();
+            return DepositLocationRepo.reorder($scope.modalData.id, $scope.modalData.id);
         };
 
         $scope.reorderDepositLocation = function (src, dest) {
