@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
 import org.tdl.vireo.model.DepositLocation;
 import org.tdl.vireo.model.depositor.Depositor;
 import org.tdl.vireo.model.repo.DepositLocationRepo;
@@ -70,6 +71,7 @@ public class DepositLocationController {
         return new ApiResponse(SUCCESS);
     }
 
+    @Transactional
     @RequestMapping("/reorder/{src}/{dest}")
     @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(method = { @WeaverValidation.Method(value = REORDER, model = DepositLocation.class, params = { "0", "1" }) })
