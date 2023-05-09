@@ -968,6 +968,7 @@ var apiMapping = {
     },
     UserSettings: {
         lazy: false,
+        timeout: 2500,
         instantiate: {
             'endpoint': '/private/queue',
             'controller': 'user',
