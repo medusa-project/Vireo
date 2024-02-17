@@ -3,7 +3,7 @@ lock "~> 3.18.0"
 
 set :application, "Vireo4"
 set :repo_url, "https://github.com/medusa-project/Vireo.git"
-set :branch, "main"
+set :branch, "ugtheses-staging"
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 

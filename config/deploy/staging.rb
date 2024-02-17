@@ -6,8 +6,8 @@
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
-server 'etd-staging.library.illinois.edu', user: 'vireo', roles: %w{app db web}
-set :branch, 'uiuc-staging'
+server 'ugtheses-staging.library.illinois.edu', user: 'vireo', roles: %w{app db web}
+set :branch, 'ugtheses-staging'
 
 # role-based syntax
 # ==================
