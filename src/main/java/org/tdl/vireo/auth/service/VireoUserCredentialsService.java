@@ -3,7 +3,12 @@ package org.tdl.vireo.auth.service;
 import java.util.HashMap;
 import java.util.Map;
 
+<<<<<<< HEAD
 import org.apache.commons.lang3.StringUtils;
+=======
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+>>>>>>> 30a6d7b5f (add logging support to credentials service)
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -51,7 +56,12 @@ public class VireoUserCredentialsService extends UserCredentialsService<User, Us
 
     @Override
     public synchronized User updateUserByCredentials(Credentials credentials) {
+<<<<<<< HEAD
         Map<String, String> shibValues = new HashMap<>();
+=======
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+        User user = userRepo.findByEmail(credentials.getEmail());
+>>>>>>> 30a6d7b5f (add logging support to credentials service)
 
         shibSettings.forEach((k, v) ->
             shibValues.put(k, configurationRepo.getValueByNameAndType(k, SHIBBOLETH) != null ? configurationRepo.getValueByNameAndType(k, SHIBBOLETH) : v)
@@ -67,6 +77,15 @@ public class VireoUserCredentialsService extends UserCredentialsService<User, Us
         User user = useNetidAsIdentifier
             ? userRepo.findByNetid(shibNetid)
             : userRepo.findByEmail(shibEmail);
+
+
+        String uin = credentials.getAllCredentials().get(shibValues.get(ConfigurationName.APPLICATION_AUTH_SHIB_ATTRIBUTE_INSTITUTIONAL_IDENTIFIER));
+        if (uin == null) {
+            uin = credentials.getEmail();
+        }
+        logger.info("UIN is "+uin);
+        // TODO: check to see if credentials is from basic login or shibboleth
+        // do not create new user from basic login credentials that have no user!
 
         if (user == null) {
             Role role = Role.ROLE_STUDENT;
