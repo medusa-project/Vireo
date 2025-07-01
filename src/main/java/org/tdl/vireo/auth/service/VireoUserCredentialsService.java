@@ -3,12 +3,9 @@ package org.tdl.vireo.auth.service;
 import java.util.HashMap;
 import java.util.Map;
 
-<<<<<<< HEAD
 import org.apache.commons.lang3.StringUtils;
-=======
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
->>>>>>> 30a6d7b5f (add logging support to credentials service)
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -56,12 +53,9 @@ public class VireoUserCredentialsService extends UserCredentialsService<User, Us
 
     @Override
     public synchronized User updateUserByCredentials(Credentials credentials) {
-<<<<<<< HEAD
         Map<String, String> shibValues = new HashMap<>();
-=======
         Logger logger = LoggerFactory.getLogger(this.getClass());
         User user = userRepo.findByEmail(credentials.getEmail());
->>>>>>> 30a6d7b5f (add logging support to credentials service)
 
         shibSettings.forEach((k, v) ->
             shibValues.put(k, configurationRepo.getValueByNameAndType(k, SHIBBOLETH) != null ? configurationRepo.getValueByNameAndType(k, SHIBBOLETH) : v)
