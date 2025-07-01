@@ -55,7 +55,6 @@ public class VireoUserCredentialsService extends UserCredentialsService<User, Us
     public synchronized User updateUserByCredentials(Credentials credentials) {
         Map<String, String> shibValues = new HashMap<>();
         Logger logger = LoggerFactory.getLogger(this.getClass());
-        User user = userRepo.findByEmail(credentials.getEmail());
 
         shibSettings.forEach((k, v) ->
             shibValues.put(k, configurationRepo.getValueByNameAndType(k, SHIBBOLETH) != null ? configurationRepo.getValueByNameAndType(k, SHIBBOLETH) : v)
