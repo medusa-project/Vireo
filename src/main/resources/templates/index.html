@@ -18,7 +18,7 @@
 
   <base th:href="${ base + '/'}" />
 
-  <title>Vireo :: Texas Digital Library</title>
+  <title>Vireo :: University of Illinois Library</title>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -29,6 +29,8 @@
   <link rel="stylesheet" href="ng-sortable.min.css" />
 
   <link rel="stylesheet" th:href="${@environment.getProperty('app.url')+'/wro/app.css'}" />
+  <link rel="stylesheet" href="//cdn.toolkit.illinois.edu/3/toolkit.css">
+  <script type="module" src="//cdn.toolkit.illinois.edu/3/toolkit.js"></script>
 
 </head>
 
@@ -38,8 +40,16 @@
 
   <!-- Content placed here will appear on every page -->
   <main>
+    <header class="il-header">
+              <ilw-header slot="header" menu="none">
+                <a slot="primary-unit" href="https://www.grad.illinois.edu/">Graduate College</a>
+                <a slot="site-name" href="/">Thesis & Dissertation Submission System</a>
+
+              </ilw-header>
+        </header>
     <nav class="navbar navbar-default">
       <div class="container-fluid" ng-controller="ApplicationAuthenticationController">
+        
 
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -110,63 +120,73 @@
       </div>
     </nav>
 
-    <header class="container-fluid site-title" ng-controller="HeaderController">
-      <div class="container">
-        <div class="row">
-          <a class="pull-left" th:href="${#strings.isEmpty(base) ? '/' : base}">
-            <img style="max-height: 57px;" ng-src="{{logoImage()}}" alt="Thesis Submission Portal Home" />
-          </a>
-          <ul ng-if="activeAdminSection()" class="tab-nav nav navbar-nav navbar-right hidden-xs">
-            <li ng-class="{'active': activeTab('/admin/list')}">
-              <a href="admin/list">List</a>
-            </li>
-            <li ng-class="{'active': activeTab('/admin/view')}">
-              <a href ng-click="viewSelect()">View</a>
-            </li>
-            <!--
-            <li ng-class="{'active': activeTab('/admin/log')}">
-              <a href="admin/log">Log</a>
-            </li>
-            -->
-            <li ng-if="!isReviewer()" ng-class="{'active': activeTab('/admin/settings')}" class="settings-tab">
-              <a href="admin/settings">Settings</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
 
     <alerts types="WARNING, ERROR"></alerts>
     <alerts seconds="45" channels="auth/register" types="SUCCESS"></alerts>
     <alerts seconds="45" channels="organization/delete" types="SUCCESS"></alerts>
 
-    <div class="container-fluid main">
+    <div class="container-fluid main" aria-live="assertive" aria-atomic="true">
       <div ng-view class="view"></div>
+      <div class="container">Powered by Vireo <span app-version></span> &copy; 2025 <a href="http://www.tdl.org/">Texas Digital Library</a>. All Rights Reserved.</div>
     </div>
-
+       <ilw-footer slot='footer'>
+        <a slot="site-name" href="https://www.grad.illinois.edu/"><h3>Graduate College</h3></a>
+        <address slot="address">
+          <p>507 East Green Street<br>
+            Suite 101, MC-434<br>
+            Champaign, IL 61820</p>
+            <p><br></p>
+          <p>Phone: <a href="tel:+12173330035">217.333.0035</a></p>
+          <p>Email: <a href="mailto:grad@illinois.edu">grad@illinois.edu</a></p>
+          
+        </address>
+        <div slot="actions">
+          <a href="https://grad.illinois.edu/giving">Make A Gift</a>
+        </div>
+        <nav slot="social" class="nav nav-custom-footer nav--footer" aria-label="Social media">
+          <ul>
+            <li><a data-service="facebook" href="https://www.facebook.com/GradCollegeIllinois">Facebook</a></li>        
+            <li><a data-service="linkedin" href="https://www.linkedin.com/company/university-of-illinois-graduate-college">LinkedIn</a></li>
+            <li><a data-service="youtube" href="https://www.youtube.com/user/GradCollegeIllinois">YouTube</a></li>
+            <li><a data-service="instagram" href="https://www.instagram.com/gradcollegeillinois/">Instagram</a></li>
+          </ul>
+        </nav>
+        <ilw-columns>
+          <ilw-content theme="gray">
+            <nav class="ilw-footer-menu" aria-labelledby="menu-1">
+            <p class="ilw-heading" id="menu-1"><h4>Connect</h4></p>
+              <ul>
+              <li><a href="https://www.grad.illinois.edu/about/contact">Contact Us</a></li>
+              <li><a href="https://www.grad.illinois.edu/directory">Staff Directory</a></li>
+              <li><a href="https://www.grad.illinois.edu/about/contact-us/get-one-one-support">One-on-one Support</a></li>
+              </ul>
+              </nav>
+            </ilw-content>
+          <ilw-content theme="gray">
+            <nav class="ilw-footer-menu" aria-labelledby="menu-2">
+            <p class="ilw-heading" id="menu-2"><h4>Additional Resources</h4></p>
+              <ul>
+              <li><a href="https://www.grad.illinois.edu/academics/handbook-policies">Handbook & Policies</a></li>
+              <li><a href="https://apps.grad.illinois.edu/grad_faculty/">Grad Faculty Database</a></li>
+              <li><a href="https://www.grad.illinois.edu/faculty-staff/roles-and-authorization#using-the-graduate-college-roles-access-manager">Roles & Access Manager</a></li>
+              </ul>
+              </nav>
+            </ilw-content>
+          <ilw-content theme="gray">
+            <nav class="ilw-footer-menu" aria-labelledby="menu-3">
+            <p class="ilw-heading" id="menu-3"><h4>Quick Links</h4></p>
+              <ul>
+              <li><a href="https://www.grad.illinois.edu/academics/registration-and-records/petitions-and-record-requests/find-form">Find a Form</a></li>
+              <li><a href="https://www.grad.illinois.edu/submit-form">Submit a Form</a></li>
+              <li><a href="https://www.grad.illinois.edu/media/gradlinks">Publicize in GradLINKS</a></li>
+              <li><a href="https://www.grad.illinois.edu/funding/assistantships/assistantship-clearinghouse">Post an Assistantship</a></li>
+              <li><a href="https://www.grad.illinois.edu/about/contact-us/request-workshop">Request a Workshop</a></li>
+              </ul>
+              </nav>
+            </ilw-content>
+        </ilw-columns>
+      </ilw-footer>
   </main>
-
-  <footer class="footer" ng-controller="FooterController">
-    <div class="container">
-      <ul class="inline-list">
-        <li>&copy; Vireo
-          <span app-version></span>
-        </li>
-        <li>
-          <a href="{{webmaster}}" ng-attr-aria-label="{{webmaster_label}}" ng-attr-aria-hidden="{{webmaster_hidden}}">Webmaster</a>
-        </li>
-        <li>
-          <a href="{{legal}}" ng-attr-aria-label="{{legal_label}}" ng-attr-aria-hidden="{{legal_hidden}}">Legal</a>
-        </li>
-        <li>
-          <a href="{{comments}}" ng-attr-aria-label="{{comments_label}}" ng-attr-aria-hidden="{{comments_hidden}}">Comments</a>
-        </li>
-        <li>
-          <a href="{{accessibility}}" ng-attr-aria-label="{{accessibility_label}}" ng-attr-aria-hidden="{{accessibility_hidden}}">Accessibility</a>
-        </li>
-      </ul>
-    </div>
-  </footer>
 
   <script src="appConfig.js"></script>
   <script src="app.bundle.js"></script>
