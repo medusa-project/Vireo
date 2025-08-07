@@ -11,8 +11,8 @@
   },
   {
     "name": "INPUT_CONTACT",
-    "validationPattern": null,
-    "validationMessage": null,
+    "validationPattern": "^\\p{Lu}[\\p{L}'’\\-]*,\\s?\\p{Lu}[\\p{L}'’\\-]*(\\s\\p{Lu}\\.?)?$",
+    "validationMessage": "Name must be in the format of Last Name, First Name Middle initial and first letter capitalized",
     "validation": {
       "name": {
         "pattern": null,
@@ -108,5 +108,10 @@
     "name": "INPUT_PROQUEST",
     "validationPattern": "^(true|false)$",
     "validationMessage": "You must accept the license agreement to continue"
+  },
+  {
+    "name": "INPUT_CONTACTNOEMAIL",
+    "validationPattern": "^\\p{Lu}[\\p{L}'’\\-]*,\\s?\\p{Lu}[\\p{L}'’\\-]*(\\s\\p{Lu}\\.?)?$",
+    "validationMessage": "Name must be in the format of Last Name, First Name Middle initial and first letter capitalized"
   }
 ]
