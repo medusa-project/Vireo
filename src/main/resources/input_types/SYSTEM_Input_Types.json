@@ -12,7 +12,7 @@
   {
     "name": "INPUT_CONTACT",
     "validationPattern": "^\\p{Lu}[\\p{L}'’\\-]*,\\s?\\p{Lu}[\\p{L}'’\\-]*(\\s\\p{Lu}\\.?)?$",
-    "validationMessage": "Name must be in the format of Last Name, First Name Middle initial and first letter capitalized",
+    "validationMessage": "Name must be in the format of Last Name, First Name.",
     "validation": {
       "name": {
         "pattern": null,
@@ -112,6 +112,6 @@
   {
     "name": "INPUT_CONTACTNOEMAIL",
     "validationPattern": "^\\p{Lu}[\\p{L}'’\\-]*,\\s?\\p{Lu}[\\p{L}'’\\-]*(\\s\\p{Lu}\\.?)?$",
-    "validationMessage": "Name must be in the format of Last Name, First Name Middle initial and first letter capitalized"
+    "validationMessage": "Name must be in the format of Last Name, First Name."
   }
 ]
