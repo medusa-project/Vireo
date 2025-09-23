@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 8080
   servlet:
     context-path:
 
@@ -36,19 +36,19 @@ spring:
 
   sql:
     init:
-      platform: h2
-      #platform: postgresql
+      #platform: h2
+      platform: postgresql
       #platform: mysql
 
   datasource:
     # H2
-    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    #url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     #url: jdbc:h2:file:./vireoh2.db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
+    #driverClassName: org.h2.Driver
 
     # PostgreSQL
-    #url: jdbc:postgresql://localhost:5432/vireo
-    #driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/vireodb5
+    driverClassName: org.postgresql.Driver
 
     # MySQL
     #url: jdbc:mysql://localhost/vireo
@@ -60,9 +60,9 @@ spring:
 
   jpa:
     # H2
-    database-platform: org.hibernate.dialect.H2Dialect
+    #database-platform: org.hibernate.dialect.H2Dialect
     # PostgreSQL
-    #database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     # MySQL
     #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
@@ -135,7 +135,7 @@ app:
   documentType.rename: PRIMARY
 
   # edu.tamu.weaver.auth.service.UserCredentialsService
-  authority.admins: admin@tdl.org,aggieJack@tamu.edu
+  authority.admins: heldreth@illinois.edu, test@illinois.edu
 
 
   security:
@@ -146,19 +146,19 @@ app:
 
   # edu.tamu.weaver.email.config.WeaverEmailConfig
   email:
-    host: relay.tamu.edu
-    from: noreply@library.tamu.edu
-    replyTo: helpdesk@library.tamu.edu
+    host: outbound-relays.techservices.illinois.edu
+    from: noreply@library.illinois.edu
+    replyTo: heldreth@illinois.edu
     # additional email configurations
     #username:
     #password:
-    #port: 587
+    port: 25
     #protocol: smtp
     #channel: starttls
     #encoding: UTF8
 
   # edu.tamu.weaver.reporting.controller.ReportingController
-  reporting.address: reporting@tdl.org
+  reporting.address: heldreth@illinois.edu
 
   # edu.tamu.weaver.validation.controller.ValidationsController
   model.packages: org.tdl.vireo.model
@@ -177,8 +177,7 @@ app:
   dataLoader:
     initialize: true
 
-  # org.tdl.vireo.auth.service.VireoUserCredentialsService
-  useNetidAsIdentifier: false
+
 
 # edu.tamu.weaver.token.service.TokenService
 auth:
