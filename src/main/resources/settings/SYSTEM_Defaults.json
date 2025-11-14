@@ -234,6 +234,15 @@
       "auth.shib.attribute.currentMajor": "currentMajor"
     },
     {
+      "auth.shib.attribute.currentDepartmentCode": "currentDepartmentCode"
+    },
+    {
+      "auth.shib.attribute.currentCollegeCode": "currentCollegeCode"
+    },
+    {
+      "auth.shib.attribute.currentMajorCode": "currentMajorCode"
+    },
+    {
       "auth.shib.attribute.currentGraduationYear": "currentGraduationYear"
     },
     {
