@@ -6,8 +6,17 @@ This repository is a fork of [TexasDigitalLibrary/Vireo](https://github.com/Texa
 
 A GitHub Actions workflow (`.github/workflows/sync-upstream.yml`) has been configured to automatically sync upstream branches and tags:
 
-- **Manual trigger**: Go to Actions → Sync Upstream Branches and Tags → Run workflow
+- **Manual trigger**: Go to [Actions → Sync Upstream Branches and Tags → Run workflow](../../actions/workflows/sync-upstream.yml)
 - **Automatic sync**: Runs weekly on Monday at 00:00 UTC
+
+### First Time Setup
+
+After merging this PR, you should manually trigger the workflow once to sync all existing branches and tags from upstream:
+
+1. Go to the [Actions tab](../../actions)
+2. Click on "Sync Upstream Branches and Tags" workflow
+3. Click "Run workflow" button
+4. Click the green "Run workflow" button to confirm
 
 ## Manual Sync
 
