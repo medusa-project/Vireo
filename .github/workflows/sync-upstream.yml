@@ -1,0 +1,64 @@
+name: Sync Upstream Branches and Tags
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run weekly on Monday at 00:00 UTC
+    - cron: '0 0 * * 1'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/TexasDigitalLibrary/Vireo.git || true
+          git remote -v
+      
+      - name: Fetch upstream branches and tags
+        run: |
+          git fetch upstream --tags
+          git fetch upstream
+      
+      - name: Push upstream branches to origin
+        run: |
+          # List of branches to sync from upstream
+          BRANCHES=(
+            "2093-front_page_instructions_after"
+            "dependabot/maven/org.apache.tika-tika-core-3.2.2"
+            "excel-export-extension"
+            "log4j-fix"
+            "main_proquest_sales_restriction"
+            "main_tomcat_108"
+            "primary-rename"
+            "sprint-9-tests"
+          )
+          
+          for branch in "${BRANCHES[@]}"; do
+            echo "Syncing branch: $branch"
+            if git show-ref --verify --quiet refs/remotes/upstream/$branch; then
+              git push origin upstream/$branch:refs/heads/$branch || echo "Failed to push $branch"
+            else
+              echo "Branch $branch not found in upstream"
+            fi
+          done
+      
+      - name: Push all tags to origin
+        run: |
+          git push origin --tags || echo "Failed to push some tags"
+      
+      - name: Summary
+        run: |
+          echo "Sync completed!"
+          echo "Branches synced from upstream:"
+          git branch -r | grep upstream | grep -v HEAD
+          echo ""
+          echo "Tags available:"
+          git tag | tail -n 10
