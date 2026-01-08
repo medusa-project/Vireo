@@ -8,6 +8,8 @@ Vireo is a turnkey Electronic Thesis and Dissertation (ETD) Management System.  
 
 If you would like to help with testing or development, GitHub issues and pull requests are encouraged!
 
+> **Note:** This repository is a fork of [TexasDigitalLibrary/Vireo](https://github.com/TexasDigitalLibrary/Vireo). For information about syncing branches and tags from upstream, see [SYNCING_UPSTREAM.md](SYNCING_UPSTREAM.md).
+
 ## Building
 
 Vireo build is done with [Maven](https://maven.apache.org/).  The most current maven compatible with vireo4 is 3.9.2.  Maven 3.9.3 is not compatible with the AngularJS used by vireo4. The build is configured with [pom.xml](https://github.com/TexasDigitalLibrary/Vireo/blob/master/pom.xml) and [package.json](https://github.com/TexasDigitalLibrary/Vireo/blob/master/package.json). There are several command line arguments that can be used when packaging Vireo 4.
