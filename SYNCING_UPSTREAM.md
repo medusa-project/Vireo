@@ -66,20 +66,34 @@ git push origin --tags
 
 ## Currently Synced Branches
 
-The following branches from upstream are automatically synced:
+The following branches from upstream are automatically synced to this repository:
 
-- `2093-front_page_instructions_after`
-- `dependabot/maven/org.apache.tika-tika-core-3.2.2`
-- `excel-export-extension`
-- `log4j-fix`
-- `main_proquest_sales_restriction`
-- `main_tomcat_108`
-- `primary-rename`
-- `sprint-9-tests`
+### Version Branches (already existed in medusa-project/Vireo)
+- `1.8.x`
+- `1.9.x`
+- `2.0.x`
+- `3.0.x`
+- `4.0.x`
+- `main`
+
+### Feature/Fix Branches (newly added from upstream)
+- `2093-front_page_instructions_after` - Front page instructions feature
+- `dependabot/maven/org.apache.tika-tika-core-3.2.2` - Dependency update
+- `excel-export-extension` - Excel export functionality
+- `log4j-fix` - Log4j security fix
+- `main_proquest_sales_restriction` - ProQuest sales restriction feature
+- `main_tomcat_108` - Tomcat 10.8 compatibility
+- `primary-rename` - Primary branch rename
+- `sprint-9-tests` - Sprint 9 test updates
 
 ## Tags
 
-All tags from the upstream repository are synced, including version tags like `v4.3.2`, `v4.3.1`, etc.
+All tags from the upstream repository are synced. The most recent new tags include:
+
+- `v4.3.2` - Latest release
+- `v4.3.1` - Previous release
+
+All historical tags (v1.8 through v4.3.0) were already present and remain synced.
 
 ## Notes
 
