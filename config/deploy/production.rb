@@ -8,6 +8,8 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 
 
+server 'etd-orid.library.illinois.edu', user: 'vireo', roles: %w{app db web}
+set :branch, 'uiuc-prod'
 
 # role-based syntax
 # ==================
