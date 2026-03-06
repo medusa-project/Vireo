@@ -60,7 +60,7 @@ class SubmissionList {
         for (const submission_id in this.submission_metadata_map){
             let sub_info={};
             let metadata=this.submission_metadata_map[submission_id];
-            sub_info["UIN"] = metadata["uin"]??"";
+            sub_info["UIN"] = metadata["institutional_id"]??"";
             sub_info["First Name"] = metadata["first_name"]??"";
             sub_info["Last Name"] = metadata["last_name"]??"";
             sub_info["Middle Name"] = metadata["middle_name"]??"";
