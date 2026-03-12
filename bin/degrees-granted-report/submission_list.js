@@ -43,7 +43,7 @@ class SubmissionList {
             let submission_id=r.row["submission"]["id"];
     
             this.submission_metadata_map[submission_id]??={};
-            this.submission_metadata_map[submission_id]["submission_date"]??=r.row["submission"]["submission_date"];
+            this.submission_metadata_map[submission_id]["submission_date"]??=r.row["submission"]["approve_application_date"];
             this.submission_metadata_map[submission_id][predicate]??=[];
             this.submission_metadata_map[submission_id][predicate].push(field_value);
             this.submission_metadata_map[submission_id]["documenttype"]??=r.row["field_predicate"]["document_type_predicate"];
