@@ -68,8 +68,8 @@ class SubmissionList {
             sub_info["Degree Name"] = metadata["thesis.degree.name"]??"";
             sub_info["Degree Department"] = metadata["thesis.degree.department"]??"";
             sub_info["Department Code"] = metadata["department_code"]??"";
-            sub_info["Program"] = metadata["degree_code"]??"";
-            sub_info["Program Code"] = metadata["major_code"]??"";
+            sub_info["Program"] = metadata["thesis.degree.program"]??"";
+            sub_info["Program Code"] = metadata["degree_code"]??"";
             sub_info["Major Name"] = metadata["thesis.degree.major"]??"";
             sub_info["Embargo Options"] = this.get_embargo_options(metadata);
             sub_info["Title"] = metadata["dc.title"]??"";
