@@ -81,11 +81,13 @@ class SubmissionList {
         
 
            
-            //collapse arrays into || separated strings, empty string if array is empty.
             for (const [key, value] of Object.entries(sub_info)) {
-                if (Array.isArray(value)) {
-                  sub_info[key] = value.length === 0 ? "" : value.join("||");
-                }
+              if (Array.isArray(value)) {
+                const cleaned = value.map(v => v === "(null)" ? "" : v);
+                sub_info[key] = cleaned.length === 0 ? "" : cleaned.join("||");
+              } else if (value === "(null)") {
+                sub_info[key] = "";
+              }
             }
             
             this.rows.push(sub_info);
