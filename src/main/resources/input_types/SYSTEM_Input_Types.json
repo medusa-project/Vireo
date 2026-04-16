@@ -11,7 +11,7 @@
   },
   {
     "name": "INPUT_CONTACT",
-    "validationPattern": "^\\p{Lu}[\\p{L}'’\\-]*,\\s?\\p{Lu}[\\p{L}'’\\-]*(\\s\\p{Lu}\\.?)?$",
+    "validationPattern": "^(([a-z]{2,3}\\s)*\\p{Lu}[\\p{L}''’\\-]*(\\s\\p{Lu}[\\p{L}''’\\-]*)*)\\s?,\\s?\\p{Lu}([\\p{L}''’\\-]*|\\.?)(\\s(\\p{Lu}[\\p{L}''’\\-]*|\\p{Lu}\\.?|[a-z]{2,3}))*$",
     "validationMessage": "Name must be in the format of Last Name, First Name.",
     "validation": {
       "name": {
@@ -111,7 +111,7 @@
   },
   {
     "name": "INPUT_CONTACTNOEMAIL",
-    "validationPattern": "^\\p{Lu}[\\p{L}'’\\-]*,\\s?\\p{Lu}[\\p{L}'’\\-]*(\\s\\p{Lu}\\.?)?$",
+    "validationPattern": "^(([a-z]{2,3}\\s)*\\p{Lu}[\\p{L}''’\\-]*(\\s\\p{Lu}[\\p{L}''’\\-]*)*)\\s?,\\s?\\p{Lu}([\\p{L}''’\\-]*|\\.?)(\\s(\\p{Lu}[\\p{L}''’\\-]*|\\p{Lu}\\.?|[a-z]{2,3}))*$",
     "validationMessage": "Name must be in the format of Last Name, First Name."
   }
 ]
