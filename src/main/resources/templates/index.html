@@ -125,7 +125,7 @@
 
     <div class="container-fluid main" aria-live="assertive" aria-atomic="true">
       <div ng-view class="view"></div>
-      <div  class="container main" ng-controller="ApplicationAuthenticationController">If your NetID is no longer active, please register at this <a href ng-click="openModal('#verifyEmailModal')">link</a>.</div>
+      <div class="container main" ng-controller="ApplicationAuthenticationController"><div ng-if="isAnonymous()">If your NetID is no longer active, please register at this <a href ng-click="openModal('#verifyEmailModal')">link</a>.</div></div>
       <div class="container">Powered by Vireo <span app-version></span> &copy; 2025 <a href="http://www.tdl.org/">Texas Digital Library</a>. All Rights Reserved.</div>
     </div>
        <ilw-footer slot='footer'>
