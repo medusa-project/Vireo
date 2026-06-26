@@ -627,6 +627,26 @@ public class SubmissionHelperUtility {
         }
         return embargoCode;
     }
+    //UIUC - this is a function to get the default embargo code because we do not use the proquest embargos - jheldreth
+    public int getDefaultEmbargoCode() {
+        int embargoCode = 0;
+        Optional<FieldValue> defaultEmbargo = getFirstFieldValueByPredicateValue("default_embargos");
+        if (defaultEmbargo.isPresent()) {
+          String fv_identifier = defaultEmbargo.get().getIdentifier();
+          if(fv_identifier.equals("0")){
+            embargoCode = 0;
+          }else if(fv_identifier.equals("6")){
+            embargoCode = 1;
+          }else if(fv_identifier.equals("12")){
+            embargoCode = 2;
+          }else if(fv_identifier.equals("24")){
+            embargoCode = 3;
+          }else{
+            embargoCode = 4;
+          }
+        }
+        return embargoCode;
+    }
 
     // NOTE: these come from the settings service
 

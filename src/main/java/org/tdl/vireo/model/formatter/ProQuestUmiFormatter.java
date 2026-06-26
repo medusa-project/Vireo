@@ -29,13 +29,14 @@ public class ProQuestUmiFormatter extends AbstractFormatter {
         // the methods from the submission helper utility would have to be brought
         // the exporter and extract predicate values from the mapping to define
         // the value to be templated with the given key
+        //UIUC - switched the function to getDefaultEmbargoCode below. - jheldreth
         for (ProQuestUMIKey key : ProQuestUMIKey.values()) {
             switch (key) {
             case AGENT:
                 context.setVariable(key.name(), "Vireo ProQuest UMI packager");
                 break;
             case EMBARGO_CODE:
-                context.setVariable(key.name(), submissionHelperUtility.getEmbargoCode());
+                context.setVariable(key.name(), submissionHelperUtility.getDefaultEmbargoCode());
                 break;
             case SUBMITTER_LAST_NAME:
                 context.setVariable(key.name(), submissionHelperUtility.getSubmitterLastName());
