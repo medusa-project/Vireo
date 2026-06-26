@@ -133,7 +133,7 @@
     def proquestUtils = play.modules.spring.Spring.getBeanOfType(org.tdl.vireo.proquest.ProquestUtilityService.class);
 
  */-->
-<DISS_submission publishing_option="0" th:attr="embargo_code=${EMBARGO_CODE},third_party_search=${PROQUEST_INDEXING}">
+<DISS_submission publishing_option="0" th:attr="embargo_code=${EMBARGO_CODE},third_party_search=N,third_party_sales=N">
     
     <DISS_authorship>
         <DISS_author type="primary">
@@ -198,7 +198,7 @@
             <DISS_inst_code th:text="${PROQUEST_INSTITUTION_CODE}"></DISS_inst_code>
             <DISS_inst_name th:text="${APPLICATION_GRANTOR}"></DISS_inst_name>
             <DISS_inst_contact th:text="${DEPARTMENT}"></DISS_inst_contact>
-            <DISS_processing_code th:text="${DEGREE_LEVEL_PQ_PROCCODE}"></DISS_processing_code>
+            <DISS_processing_code th:text="D"></DISS_processing_code>
         </DISS_institution>
 
         <DISS_advisor th:each="committeeChairFieldValue : ${COMMITTEE_CHAIR_FIELD_VALUES}" th:if="${committeeChairFieldValue.getValue().length() > 0}">
@@ -240,11 +240,10 @@
         </DISS_attachment>
     </DISS_content>
 
-    <DISS_restriction th:if="${EMBARGO_CODE == 0}">    
-      <DISS_sales_restriction th:attr="code=0,remove=${PROQUEST_SALE_RESTRICTION_REMOVE}"/>
-    </DISS_restriction>
-    <DISS_restriction th:if="${EMBARGO_CODE > 0}">    
-      <DISS_sales_restriction th:attr="code=1,remove=${PROQUEST_SALE_RESTRICTION_REMOVE}"/>
+    <DISS_restriction>
+        <DISS_sales_restriction code="0" remove=" "/>
+        <DISS_format_restriction code="0" remove=" "/>
+        <DISS_note/>
     </DISS_restriction>
  
 </DISS_submission>
