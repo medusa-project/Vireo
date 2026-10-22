@@ -49,8 +49,9 @@ public class DSpaceSimpleFormatter extends AbstractFormatter {
             case ABSTRACT_LINES:
                 context.setVariable(key.name(), submissionHelperUtility.getAbstractLines());
                 break;
+            // UIUC use keywords for subject field values.
             case SUBJECT_FIELD_VALUES:
-                context.setVariable(key.name(), submissionHelperUtility.getSubjectFieldValues());
+                context.setVariable(key.name(), submissionHelperUtility.getKeywordFieldValues());
                 break;
             case COMMITTEE_CHAIR_FIELD_VALUES:
                 context.setVariable(key.name(), submissionHelperUtility.getCommitteeChairFieldValues());
