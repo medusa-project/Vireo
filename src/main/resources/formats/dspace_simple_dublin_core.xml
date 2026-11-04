@@ -28,12 +28,15 @@
     	<dcvalue element="contributor" qualifier="committeeMember" th:text="${CMFV.getValue()}"></dcvalue>
 	</th:block>
 
-    
+    <!-- UIUC: Change for UIUc date.created not used -->
     <!-- dc.date.created = Graduation date in "Month YYYY" format -->
-    <dcvalue element="date" qualifier="created" th:text="${GRADUATION_DATE_MONTH_YEAR_STRING}"></dcvalue>
+    <!--<dcvalue element="date" qualifier="created" th:text="${GRADUATION_DATE_MONTH_YEAR_STRING}"></dcvalue> -->
 
-    <!-- dc.date.issued = Graduation date in "YYYY-MM" format -->
-    <dcvalue element="date" qualifier="issued" th:text="${GRADUATION_DATE_YEAR_MONTH_STRING}"></dcvalue>
+    
+    <dcvalue element="date" qualifier="submitted" th:text="${GRADUATION_DATE_YEAR_MONTH_STRING}"></dcvalue>
+
+    <!-- UIUC: Use date.issued records approval date-->
+    <dcvalue element="date" qualifier="issued" th:text="${APPROVAL_DATE_STRING}"></dcvalue>
 
     <!-- dc.format.mimetype = Primary Document's mimetype, almost always "application/pdf" -->
     <dcvalue element="format" qualifier="mimetype" th:text="${PRIMARY_DOCUMENT_MIMETYPE}"></dcvalue>

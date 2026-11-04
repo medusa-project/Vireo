@@ -49,6 +49,7 @@ namespace :deploy do
         execute "mkdir -p #{deploy_to}/shared/"
         execute "ln -sf #{deploy_to}/shared/application.yml #{deploy_to}/current/src/main/resources/application.yml"
         execute "ln -sf #{deploy_to}/shared/build-config.js #{deploy_to}/current/.wvr/build-config.js"
+        execute "ln -sf #{deploy_to}/shared/package-lock.json #{deploy_to}/current/package-lock.json"
         # the cd to current and the sh need to happen in the same execute command.
         # execute "cd #{deploy_to}/current/ && sh create_vireo_war_file.sh"
       end
