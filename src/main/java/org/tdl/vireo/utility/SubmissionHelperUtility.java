@@ -548,9 +548,13 @@ public class SubmissionHelperUtility {
         Optional<String> title = getFieldValueByPredicateValue("dc.title");
         return title.isPresent() ? title.get() : "";
     }
-
-    public List<FieldValue> getCommitteeChairFieldValues() {
+    //UIUC specific helper methods for advisor field values (Also used for director of Research)
+    public List<FieldValue> getAdvisorFieldValues() {
         return submission.getFieldValuesByPredicateValueStartsWith("dc.contributor.advisor");
+    }
+    //UIUC specific helper methods for committee chair field values
+    public List<FieldValue> getCommitteeChairFieldValues() {
+        return submission.getFieldValuesByPredicateValueStartsWith("dc.contributor.committeeChair");
     }
 
     public String getFirstName(String name) {

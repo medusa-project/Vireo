@@ -53,6 +53,9 @@ public class DSpaceSimpleFormatter extends AbstractFormatter {
             case SUBJECT_FIELD_VALUES:
                 context.setVariable(key.name(), submissionHelperUtility.getKeywordFieldValues());
                 break;
+            case ADVISOR_FIELD_VALUES:
+                context.setVariable(key.name(), submissionHelperUtility.getAdvisorFieldValues());
+                break;
             case COMMITTEE_CHAIR_FIELD_VALUES:
                 context.setVariable(key.name(), submissionHelperUtility.getCommitteeChairFieldValues());
                 break;
