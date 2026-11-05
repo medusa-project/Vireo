@@ -49,6 +49,10 @@ public class DSpaceSimpleFormatter extends AbstractFormatter {
             case ABSTRACT_LINES:
                 context.setVariable(key.name(), submissionHelperUtility.getAbstractLines());
                 break;
+            // UIUC    
+            case APPROVAL_DATE_STRING:
+                context.setVariable(key.name(), submissionHelperUtility.getAdvisorApprovalDateString());
+                break;
             // UIUC use keywords for subject field values.
             case SUBJECT_FIELD_VALUES:
                 context.setVariable(key.name(), submissionHelperUtility.getKeywordFieldValues());
