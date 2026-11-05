@@ -36,7 +36,6 @@ public class SubmissionHelperUtility {
     private static final Logger logger = LoggerFactory.getLogger(SubmissionHelperUtility.class);
 
     private final static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-
     private final static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 
     private final static SimpleDateFormat yearMonthFormat = new SimpleDateFormat("yyyy-MM");
@@ -240,7 +239,7 @@ public class SubmissionHelperUtility {
     }
 
     public String getApproveApplicationDate() {
-        return submission.getApproveApplicationDate() != null ? dateFormat.format(submission.getApproveApplicationDate().getTime()) : "";
+        return submission.getApproveApplicationDate() != null ? iso8601Format.format(submission.getApproveApplicationDate().getTime()) : "";
     }
 
     public String getUserOrcid() {
