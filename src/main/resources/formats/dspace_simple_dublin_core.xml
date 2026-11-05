@@ -18,9 +18,14 @@
     </th:block>
      
     <!-- dc.contributor.advisor = Committee Memmbers who are flagged as chair (may be multiple) -->
-
+    <!-- edited for UIUC: Used committeeChair instead of advisor -->
     <th:block th:each="CCFV : ${COMMITTEE_CHAIR_FIELD_VALUES}">
-        <dcvalue element="contributor" qualifier="advisor" th:text="${CCFV.getValue()}"></dcvalue>
+        <dcvalue element="contributor" qualifier="committeeChair" th:text="${CCFV.getValue()}"></dcvalue>
+	</th:block>
+
+    <!-- UIUC used advisor as its own things -->
+    <th:block th:each="ADVV : ${ADVISOR_FIELD_VALUES}">
+        <dcvalue element="contributor" qualifier="advisor" th:text="${ADVV.getValue()}"></dcvalue>
 	</th:block>
     
     <!-- dc.contributor.committeeMember = Committee Members who are not flagged as chair (likely multiple) -->
