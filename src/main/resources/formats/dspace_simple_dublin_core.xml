@@ -61,6 +61,12 @@
 
 
     <!-- dc.description.proveance = Embargo Notes -->
+
+        <!-- UIUC dc.description.provenance = UIUC Embargo Selection -->
+        <th:block th:if="${ DEFAULT_EMBARGO_STRING != null }">
+            <dcvalue element="description" qualifier="provenance" th:text="${ 'The default embargo for this ' + SUBMISSION_TYPE + ' is ' + DEFAULT_EMBARGO_STRING + '.' }">
+            </dcvalue>
+        </th:block> 
     
 		<!-- dc.description.provenance = License Agreement Date -->
 		<th:block th:if="${ LICENSE_AGREEMENT_DATE != null }">
@@ -79,7 +85,7 @@
        		<dcvalue element="description" qualifier="provenance" th:text="${ 'The committee advisor approved this ' + SUBMISSION_TYPE+ ' on '+ FORMATTED_COMMITTEE_APPROVAL_DATE +'.' }">               
 			</dcvalue>
 		</th:block>
-		
+
 		<!-- dc.description.provenance = Committee Embargo Approval Date -->
 		<th:block th:if="${ COMMITTEE_EMBARGO_APPROVAL_DATE != null }">
        		<dcvalue element="description" qualifier="provenance" th:text="${ 'The committee advisor approved the embargo selection for this ' + SUBMISSION_TYPE+ ' on '+ FORMATTED_COMMITTEE_EMBARGO_APPROVAL_DATE +'.' }">               
