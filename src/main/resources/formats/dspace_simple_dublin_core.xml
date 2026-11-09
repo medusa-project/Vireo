@@ -59,6 +59,10 @@
         <!-- e.g. http://hdl.handle.net/123456789/11324-->
     <dcvalue element="identifier" qualifier="uri" th:text="${DEPOSIT_URL}"></dcvalue>
 
+    <!-- UIUC: copyright notice -->
+    <dcvalue element="rights"
+             th:text="${'Copyright ' + GRADUATION_DATE_YEAR_MONTH_STRING.substring(0,4) + ' ' + STUDENT_SHORT_NAME}">
+    </dcvalue>
 
     <!-- dc.description.proveance = Embargo Notes -->
 
@@ -95,10 +99,13 @@
 		</th:block>
 		
 		<!-- dc.description.provenance = Approval Date -->
-		<th:block th:if="${ APPROVAL_DATE != null }">
-       		<dcvalue element="description" qualifier="provenance" th:text="${ 'This ' + SUBMISSION_TYPE+ ' was approved for publication on '+ FORMATTED_APPROVAL_DATE +'.' }">               
+		<th:block th:if="${ APPROVAL_DATE_STRING != null }">
+       		<dcvalue element="description" qualifier="provenance" th:text="${ 'This ' + SUBMISSION_TYPE+ ' was approved for publication on '+ APPROVAL_DATE_STRING +'.' }">               
 			</dcvalue>
 		</th:block>
+
+        <!-- UIUC dc.description.provenance = UIUC export generation information -->
+        <dcvalue element="description" qualifier="provenance" th:text="${'DSpace SAF Submission Ingestion Package generated from Vireo submission #' + SUBMISSION_ID + ' on ' + TIME}"></dcvalue>
     
      <!-- dc.description.provenance = Statement about when this package was generated. -->
 		<dcvalue element="description" qualifier="provenance" th:text="${ 'DSpace Simple Format generated from Vireo submission ' + SUBMISSION_ID + ' on ' + TIME }">

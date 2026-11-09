@@ -2,6 +2,8 @@ package org.tdl.vireo.model.export.enums;
 
 public enum DSpaceSimpleKey {
     STUDENT_FULL_NAME_WITH_BIRTH_YEAR,
+    // UIUC Student name Last, First Middle (middle not included if recorded as "null")
+    STUDENT_UIUC_NAME,
     USER_ORCID,
     TITLE,
     ABSTRACT,
