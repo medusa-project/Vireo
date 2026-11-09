@@ -6,7 +6,8 @@
     <dcvalue element="degree" qualifier="name" th:text="${DEGREE_NAME}"></dcvalue>
 
     <!-- thesis.degree.level = Degree Level (Doctoral, Masters, Undergraduate) -->
-    <dcvalue element="degree" qualifier="level" th:text="${DEGREE_LEVEL}"></dcvalue>
+    <!-- UIUC just use submission type for degree level -->
+    <dcvalue element="degree" qualifier="level" th:text="${SUBMISSION_TYPE}"></dcvalue>
 
     <!-- thesis.degree.major = Major -->
     <dcvalue element="degree" qualifier="major" th:text="${DEGREE_MAJOR}"></dcvalue>
