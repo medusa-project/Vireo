@@ -651,6 +651,49 @@ public class SubmissionHelperUtility {
         return embargoCode;
     }
 
+    //UIUC - get default embargo value as a string for display purposes.
+    public String getDefaultEmbargoString() {
+        Optional<FieldValue> defaultEmbargo = getFirstFieldValueByPredicateValue("default_embargos");
+        return defaultEmbargo.isPresent() ? defaultEmbargo.get().getValue(): "";
+
+    }
+
+    //UIUC - compute embargo provenance message and return as string for display purposes.
+    public String getEmbargoProvenanceString() {
+
+        String embargoValue = getDefaultEmbargoString();
+
+        if (embargoValue == null || embargoValue.trim().isEmpty()) {
+            return "";
+        }
+
+        // Open Access = no embargo period
+        if ("Open Access".equals(embargoValue)) {
+            return "Submission originally released as '" +
+                embargoValue +
+                "'.";
+        }
+
+        // U of I Access and Closed Access receive a 24 month embargo
+        if ("U of I Access".equals(embargoValue)
+                || "Closed Access".equals(embargoValue)) {
+
+            Calendar liftDate = Calendar.getInstance();
+            liftDate.add(Calendar.MONTH, 24);
+
+            return "Submission originally released as '" +
+                embargoValue +
+                "'. The embargo will lift on " +
+                iso8601Format.format(liftDate.getTime()) +
+                ".";
+        }
+
+        // Fallback for any future/unknown embargo values
+        return "Submission originally released as '" +
+            embargoValue +
+            "'.";
+    }
+
     // NOTE: these come from the settings service
 
 

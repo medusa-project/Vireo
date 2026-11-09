@@ -9,6 +9,8 @@ public enum DSpaceSimpleKey {
     SUBJECT_FIELD_VALUES,
     // UIUC Committee needs advisor
     ADVISOR_FIELD_VALUES,
+    // UIUC Default embargo string
+    DEFAULT_EMBARGO_STRING,
     COMMITTEE_CHAIR_FIELD_VALUES,
     COMMITTEE_MEMBER_FIELD_VALUES,
     GRADUATION_DATE_YEAR_MONTH_STRING,

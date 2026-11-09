@@ -53,6 +53,10 @@ public class DSpaceSimpleFormatter extends AbstractFormatter {
             case APPROVAL_DATE_STRING:
                 context.setVariable(key.name(), submissionHelperUtility.getApproveApplicationDate());
                 break;
+            // UIUC - get UIUC default embargo string for display purposes.
+            case DEFAULT_EMBARGO_STRING:
+                context.setVariable(key.name(), submissionHelperUtility.getDefaultEmbargoString());
+                break;
             // UIUC use keywords for subject field values.
             case SUBJECT_FIELD_VALUES:
                 context.setVariable(key.name(), submissionHelperUtility.getKeywordFieldValues());
