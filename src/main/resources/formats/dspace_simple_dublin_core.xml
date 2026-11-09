@@ -63,10 +63,12 @@
     <!-- dc.description.proveance = Embargo Notes -->
 
         <!-- UIUC dc.description.provenance = UIUC Embargo Selection -->
-        <th:block th:if="${ DEFAULT_EMBARGO_STRING != null }">
-            <dcvalue element="description" qualifier="provenance" th:text="${ 'The default embargo for this ' + SUBMISSION_TYPE + ' is ' + DEFAULT_EMBARGO_STRING + '.' }">
+        <th:block th:if="${EMBARGO_PROVENANCE_STRING != null and !#strings.isEmpty(EMBARGO_PROVENANCE_STRING)}">
+            <dcvalue element="description"
+                    qualifier="provenance"
+                    th:text="${EMBARGO_PROVENANCE_STRING}">
             </dcvalue>
-        </th:block> 
+        </th:block>
     
 		<!-- dc.description.provenance = License Agreement Date -->
 		<th:block th:if="${ LICENSE_AGREEMENT_DATE != null }">
