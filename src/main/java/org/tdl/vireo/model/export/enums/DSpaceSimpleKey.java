@@ -11,6 +11,8 @@ public enum DSpaceSimpleKey {
     ADVISOR_FIELD_VALUES,
     // UIUC Default embargo string
     DEFAULT_EMBARGO_STRING,
+    // UIUC Embargo provenance string
+    EMBARGO_PROVENANCE_STRING,
     COMMITTEE_CHAIR_FIELD_VALUES,
     COMMITTEE_MEMBER_FIELD_VALUES,
     GRADUATION_DATE_YEAR_MONTH_STRING,
