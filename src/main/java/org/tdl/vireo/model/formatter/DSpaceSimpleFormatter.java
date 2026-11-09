@@ -61,6 +61,10 @@ public class DSpaceSimpleFormatter extends AbstractFormatter {
             case SUBJECT_FIELD_VALUES:
                 context.setVariable(key.name(), submissionHelperUtility.getKeywordFieldValues());
                 break;
+            // UIUC Embargo provenance string
+            case EMBARGO_PROVENANCE_STRING:
+                context.setVariable(key.name(), submissionHelperUtility.getEmbargoProvenanceString());
+                break;  
             case ADVISOR_FIELD_VALUES:
                 context.setVariable(key.name(), submissionHelperUtility.getAdvisorFieldValues());
                 break;
