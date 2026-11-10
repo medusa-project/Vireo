@@ -348,6 +348,11 @@ public class SubmissionHelperUtility {
         String middleName = getSubmitterMiddleName();
         String lastName = getSubmitterLastName();
         String birthYear = getBirthYear();
+
+        // UIUC format: middle name is ignored if it is "(null)"
+        if ("(null)".equalsIgnoreCase(middleName)) {
+            middleName = "";
+        }
         return (lastName.length() > 0 ? lastName + COMMA : NOTHING) + (firstName.length() > 0 ? firstName + SPACE : NOTHING) + (middleName.length() > 0 ? middleName + SPACE : NOTHING) + (birthYear.length() > 0 ? birthYear + HYPHEN : NOTHING);
     }
 
@@ -355,6 +360,11 @@ public class SubmissionHelperUtility {
         String firstName = getSubmitterFirstName();
         String middleName = getSubmitterMiddleName();
         String lastName = getSubmitterLastName();
+
+        // UIUC format: middle name is ignored if it is "(null)"
+        if ("(null)".equalsIgnoreCase(middleName)) {
+            middleName = "";
+        }
         return (lastName.length() > 0 ? lastName + COMMA : NOTHING) + (firstName.length() > 0 ? firstName + SPACE : NOTHING) + (middleName.length() > 0 ? middleName + SPACE : NOTHING);
     }
 

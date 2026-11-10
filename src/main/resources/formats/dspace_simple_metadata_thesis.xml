@@ -13,7 +13,10 @@
     <dcvalue element="degree" qualifier="major" th:text="${DEGREE_MAJOR}"></dcvalue>
 
     <!-- thesis.degree.grantor = Global configuration setting (settings tab - application settings) -->
-    <dcvalue element="degree" qualifier="grantor" th:text="${APPLICATION_GRANTOR}"></dcvalue>
+    <!-- <dcvalue element="degree" qualifier="grantor" th:text="${APPLICATION_GRANTOR}"></dcvalue>> -->
+
+    <!-- UIUC just hardcodes the degree grantor -->
+    <dcvalue element="degree" qualifier="grantor" th:text="'University of Illinois Urbana-Champaign'"></dcvalue>    
 
     <!-- thesis.degree.department = Department -->
     <dcvalue element="degree" qualifier="department" th:text="${DEPARTMENT}"></dcvalue>
