@@ -21,11 +21,13 @@
     <!-- thesis.degree.department = Department -->
     <dcvalue element="degree" qualifier="department" th:text="${DEPARTMENT}"></dcvalue>
 
+    <!-- UIUC doesn't use college -->
     <!-- thesis.degree.college = College -->
-    <dcvalue element="degree" qualifier="college" th:text="${DEGREE_COLLEGE}"></dcvalue>
+    <!-- <dcvalue element="degree" qualifier="college" th:text="${DEGREE_COLLEGE}"></dcvalue> -->
 
+    <!-- UIUC doesn't use school -->
     <!-- thesis.degree.school = School -->
-    <dcvalue element="degree" qualifier="school" th:text="${DEGREE_SCHOOL}"></dcvalue>
+    <!-- <dcvalue element="degree" qualifier="school" th:text="${DEGREE_SCHOOL}"></dcvalue> -->
 
     <!-- thesis.degree.program = Program -->
     <dcvalue element="degree" qualifier="program" th:text="${DEGREE_PROGRAM}"></dcvalue>
