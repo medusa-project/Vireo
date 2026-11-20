@@ -31,12 +31,20 @@
             <div ng-include="'views/sideboxes/furtherFilterBy/furtherFilterBySubmissionType.html'"></div>
         </div>
 
+        <div ng-switch-when="Submission Type (List)">
+            <div ng-include="'views/sideboxes/furtherFilterBy/furtherFilterBySubmissionTypeList.html'"></div>
+        </div>
+
         <div ng-switch-when="Proquest Publication">
             <div ng-include="'views/sideboxes/furtherFilterBy/furtherFilterByUmiPublication.html'"></div>
         </div>
 
         <div ng-switch-when="Graduation Semester">
             <div ng-include="'views/sideboxes/furtherFilterBy/furtherFilterByDegreeDate.html'"></div>
+        </div>
+
+        <div ng-switch-when="Graduation Semester (List)">
+          <div ng-include="'views/sideboxes/furtherFilterBy/furtherFilterByDegreeDateList.html'"></div>
         </div>
 
         <div ng-switch-default>

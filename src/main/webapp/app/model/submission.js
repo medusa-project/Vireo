@@ -10,6 +10,36 @@ var submissionModel = function ($filter, $q, ActionLog, FieldValue, FileService,
 
         submission.enableMergeCombinationOperation();
 
+        var removeFieldValue = function (removedFieldValue) {
+            for (var i in submission.fieldValues) {
+                var fieldValue = submission.fieldValues[i];
+
+                if (fieldValue.id === removedFieldValue.id) {
+                    submission.fieldValues.splice(i, 1);
+                    if (submission.primaryDocumentFieldValue !== undefined && submission.primaryDocumentFieldValue !== null && fieldValue.id === submission.primaryDocumentFieldValue.id) {
+                        delete submission.primaryDocumentFieldValue;
+                    }
+
+                    // Check if the field is repeatable
+                    var fieldProfile = submission.getFieldProfileByPredicate(fieldValue.fieldPredicate);
+
+                    // Count remaining field values for this predicate
+                    var remainingFieldValues = submission.getFieldValuesByFieldPredicate(fieldValue.fieldPredicate);
+
+                    // If repeatable and no remaining field values, add a new one
+                    if (fieldProfile.repeatable && remainingFieldValues.length === 0) {
+                        submission.addFieldValue(fieldValue.fieldPredicate);
+                    }
+                    // If not repeatable, add a new field value
+                    else if (!fieldProfile.repeatable) {
+                        submission.addFieldValue(fieldValue.fieldPredicate);
+                    }
+
+                    break;
+                }
+            }
+        };
+
         //populate fieldValues with models for existing values
         var instantiateFieldValues = function () {
             var fieldValues = angular.copy(submission.fieldValues);
@@ -49,14 +79,16 @@ var submissionModel = function ($filter, $q, ActionLog, FieldValue, FileService,
         var enrichDocumentTypeFieldValue = function (fieldValue) {
             if (!!fieldValue.value) {
                 if (!fieldValue.fileInfo && fieldValue.value.length > 0) {
-                submission.fileInfo(fieldValue).then(function (response) {
-                    fieldValue.fileInfo = angular.fromJson(response.body).payload.ObjectNode;
-                });
-            }
+                    submission.fileInfo(fieldValue).then(function (response) {
+                        fieldValue.fileInfo = angular.fromJson(response.body).payload.ObjectNode;
+                    });
+                }
 
-            if (fieldValue.value.length > 0 && submission.getFileType(fieldValue.fieldPredicate) === 'PRIMARY') {
-                submission.primaryDocumentFieldValue = fieldValue;
-            }
+                if (fieldValue.value.length > 0 && submission.getFileType(fieldValue.fieldPredicate) === 'PRIMARY') {
+                    angular.extend(submission, {
+                        primaryDocumentFieldValue: fieldValue
+                    });
+                }
             }
         };
 
@@ -68,71 +100,28 @@ var submissionModel = function ($filter, $q, ActionLog, FieldValue, FileService,
             });
         };
 
-        submission.listen(function () {
-            instantiateFieldValues();
-            instantiateActionLogs();
-        });
+        submission.enableListeners = function (simple) {
+            if (angular.isUndefined(submission.id)) {
+                return;
+            }
 
-        submission.before(function() {
-            submission.organization = new Organization(submission.organization);
-
-            instantiateFieldValues();
-
-            // populate fieldValues with models for empty values
-            angular.forEach(submission.submissionWorkflowSteps, function (submissionWorkflowStep) {
-                angular.forEach(submissionWorkflowStep.aggregateFieldProfiles, function (fp) {
-                    var fieldValuesByFieldPredicate = submission.getFieldValuesByFieldPredicate(fp.fieldPredicate);
-                    if (!fieldValuesByFieldPredicate.length) {
-                        submission.fieldValues.push(createEmptyFieldValue(fp.fieldPredicate));
-                    }
-                });
+            submission.listen(function () {
+                instantiateFieldValues();
+                instantiateActionLogs();
             });
 
-            instantiateActionLogs();
+            var fieldValuesListen = apiMapping.Submission.fieldValuesListen;
+            var fieldValuesRemovedListen = apiMapping.Submission.fieldValueRemovedListen;
 
-            angular.extend(apiMapping.Submission.actionLogListen, {
-              'method': submission.id + '/action-logs'
-            });
+            fieldValuesListen.method = submission.id + '/field-values';
+            fieldValuesRemovedListen.method = submission.id + '/removed-field-values';
 
-            submission.actionLogListenPromise = WsApi.listen(apiMapping.Submission.actionLogListen);
-            submission.actionLogListenReloadDefer = $q.defer();
+            submission.fieldValuesListenPromise = WsApi.listen(fieldValuesListen);
+            submission.fieldValuesRemovedListenPromise = WsApi.listen(fieldValuesRemovedListen);
 
-            submission.actionLogListenPromise.then(null, null, function (response) {
-                var newActionLog = angular.fromJson(response.body).payload.ActionLog;
-
-                if (angular.isUndefined(submission.actionLogs)) {
-                    submission.actionLogs = [];
-                }
-
-                submission.actionLogs.push(new ActionLog(newActionLog));
-                submission.actionLogListenReloadDefer.notify(submission.actionLogs);
-            });
-
-            angular.extend(apiMapping.Submission.customActionValuesListen, {
-                'method': submission.id + '/custom-action-values'
-            });
-            WsApi.listen(apiMapping.Submission.customActionValuesListen).then(null, null, function (data) {
-                var replacedCustomActionValue = false;
-                var newCustomActionValue = angular.fromJson(data.body).payload.CustomActionValue;
-                for (var i in submission.customActionValues) {
-                    if (submission.customActionValues[i].id === newCustomActionValue.id) {
-                        angular.extend(submission.customActionValues[i], newCustomActionValue);
-                        replacedCustomActionValue = true;
-                        break;
-                    }
-                }
-                if (!replacedCustomActionValue) {
-                    cav = new CustomActionValue(newCustomActionValue);
-                    submission.customActionValues.push(cav);
-                }
-            });
-
-            angular.extend(apiMapping.Submission.fieldValuesListen, {
-                'method': submission.id + '/field-values'
-            });
-            WsApi.listen(apiMapping.Submission.fieldValuesListen).then(null, null, function (data) {
+            submission.fieldValuesListenPromise.then(null, null, function (res) {
                 var replacedFieldValue = false;
-                var newFieldValue = angular.fromJson(data.body).payload.FieldValue;
+                var newFieldValue = angular.fromJson(res.body).payload.FieldValue;
                 var emptyFieldValues = [];
                 var fieldValue;
 
@@ -153,11 +142,13 @@ var submissionModel = function ($filter, $q, ActionLog, FieldValue, FileService,
                         }
                     }
                 }
+
                 if (emptyFieldValues.length === 1) {
                     fieldValue = emptyFieldValues[0];
                     angular.extend(fieldValue, newFieldValue);
                     replacedFieldValue = true;
                 }
+
                 if (!replacedFieldValue) {
                     fieldValue = new FieldValue(newFieldValue);
                     submission.fieldValues.push(fieldValue);
@@ -168,23 +159,71 @@ var submissionModel = function ($filter, $q, ActionLog, FieldValue, FileService,
                 }
             });
 
-            angular.extend(apiMapping.Submission.fieldValueRemovedListen, {
-                'method': submission.id + '/removed-field-value'
+            submission.fieldValuesRemovedListenPromise.then(null, null, function (res) {
+                var removedFieldValue = angular.fromJson(res.body).payload.FieldValue;
+
+                removeFieldValue(removedFieldValue);
             });
-            WsApi.listen(apiMapping.Submission.fieldValueRemovedListen).then(null, null, function (data) {
-                var removedFieldValue = angular.fromJson(data.body).payload.FieldValue;
-                for (var i in submission.fieldValues) {
-                    var fieldValue = submission.fieldValues[i];
-                    if (fieldValue.id === removedFieldValue.id) {
-                        submission.fieldValues.splice(i, 1);
-                        if (submission.primaryDocumentFieldValue !== undefined && submission.primaryDocumentFieldValue !== null && fieldValue.id === submission.primaryDocumentFieldValue.id) {
-                            delete submission.primaryDocumentFieldValue;
-                        }
-                        submission.addFieldValue(fieldValue.fieldPredicate);
-                        break;
+
+            if (simple !== true) {
+                var actionLogListen = apiMapping.Submission.actionLogListen;
+                var customActionValuesListen = apiMapping.Submission.customActionValuesListen;
+
+                actionLogListen.method = submission.id + '/action-logs';
+                customActionValuesListen.method = submission.id + '/custom-action-values';
+
+                submission.actionLogListenPromise = WsApi.listen(actionLogListen);
+                submission.customActionValuesListenPromise = WsApi.listen(customActionValuesListen);
+
+                submission.actionLogListenReloadDefer = $q.defer();
+
+                submission.actionLogListenPromise.then(null, null, function (res) {
+                    var newActionLog = angular.fromJson(res.body).payload.ActionLog;
+
+                    if (angular.isUndefined(submission.actionLogs)) {
+                        submission.actionLogs = [];
                     }
-                }
+
+                    submission.actionLogs.push(new ActionLog(newActionLog));
+                    submission.actionLogListenReloadDefer.notify(submission.actionLogs);
+                });
+
+                submission.customActionValuesListenPromise.then(null, null, function (res) {
+                    var replacedCustomActionValue = false;
+                    var newCustomActionValue = angular.fromJson(res.body).payload.CustomActionValue;
+
+                    for (var i in submission.customActionValues) {
+                        if (submission.customActionValues[i].id === newCustomActionValue.id) {
+                            angular.extend(submission.customActionValues[i], newCustomActionValue);
+                            replacedCustomActionValue = true;
+                            break;
+                        }
+                    }
+
+                    if (!replacedCustomActionValue) {
+                        cav = new CustomActionValue(newCustomActionValue);
+                        submission.customActionValues.push(cav);
+                    }
+                });
+            }
+        };
+
+        submission.before(function() {
+            submission.organization = new Organization(submission.organization);
+
+            instantiateFieldValues();
+
+            // populate fieldValues with models for empty values
+            angular.forEach(submission.submissionWorkflowSteps, function (submissionWorkflowStep) {
+                angular.forEach(submissionWorkflowStep.aggregateFieldProfiles, function (fp) {
+                    var fieldValuesByFieldPredicate = submission.getFieldValuesByFieldPredicate(fp.fieldPredicate);
+                    if (!fieldValuesByFieldPredicate.length) {
+                        submission.fieldValues.push(createEmptyFieldValue(fp.fieldPredicate));
+                    }
+                });
             });
+
+            instantiateActionLogs();
         });
 
         submission.addComment = function (data) {
@@ -340,6 +379,7 @@ var submissionModel = function ($filter, $q, ActionLog, FieldValue, FileService,
                     resolve();
                 });
             }
+
             angular.extend(this.getMapping().validateFieldValue, {
                 method: submission.id + "/validate-field-value/" + fieldProfile.id,
                 data: fieldValue
@@ -469,7 +509,16 @@ var submissionModel = function ($filter, $q, ActionLog, FieldValue, FileService,
                 method: submission.id + "/remove-field-value",
                 data: fieldValue
             });
+
             var promise = WsApi.fetch(this.getMapping().removeFieldValue);
+
+            promise.then(function (response) {
+                var apiRes = angular.fromJson(response.body);
+                if (apiRes.meta.status === 'SUCCESS') {
+                    removeFieldValue(fieldValue);
+                }
+            });
+
             return promise;
         };
 

@@ -1,4 +1,4 @@
-vireo.controller("AdminSubmissionViewController", function ($anchorScroll, $controller, $location, $routeParams, $scope, $timeout, DepositLocationRepo, EmailRecipient, EmailRecipientType, EmailTemplateRepo, EmbargoRepo, FieldPredicateRepo, FieldValue, FileUploadService, SidebarService, SubmissionRepo, SubmissionStatuses, SubmissionStatusRepo, UserRepo, UserService, UserSettings, WsApi) {
+vireo.controller("AdminSubmissionViewController", function ($anchorScroll, $controller, $filter, $location, $routeParams, $scope, $timeout, DepositLocationRepo, EmailRecipient, EmailRecipientType, EmailTemplateRepo, EmbargoRepo, FieldPredicateRepo, FieldValue, FileUploadService, SidebarService, SubmissionRepo, SubmissionStatuses, SubmissionStatusRepo, UserRepo, UserService, UserSettings, WsApi) {
 
     angular.extend(this, $controller('AbstractController', {
         $scope: $scope
@@ -75,9 +75,55 @@ vireo.controller("AdminSubmissionViewController", function ($anchorScroll, $cont
 
     $scope.dropZoneText = "Drop a file or click arrow";
 
+    $scope.getTitle = function (submission) {
+        // Base title with last name, first name
+        let title = `${submission.submitter.lastName}, ${submission.submitter.firstName}`;
+
+        // Try to find degree and major field values
+        const degreePredicate = submission.getFieldProfileByPredicateName('thesis.degree.name');
+        const majorPredicates = [
+            submission.getFieldProfileByPredicateName('thesis.degree.major'),
+            submission.getFieldProfileByPredicateName('thesis.degree.discipline')
+        ];
+
+        let degree = '';
+        let major = '';
+
+        // Find degree field values if predicate exists
+        if (degreePredicate) {
+            const degreeFieldValues = submission.getFieldValuesByFieldPredicate(degreePredicate.fieldPredicate);
+            if (degreeFieldValues.length > 0 && degreeFieldValues[0].value) {
+                degree = degreeFieldValues[0].value;
+            }
+        }
+
+        // Find major field values, giving precedence to thesis.degree.major
+        for (let majorPredicate of majorPredicates) {
+            if (majorPredicate) {
+                const majorFieldValues = submission.getFieldValuesByFieldPredicate(majorPredicate.fieldPredicate);
+                if (majorFieldValues.length > 0 && majorFieldValues[0].value) {
+                    major = majorFieldValues[0].value;
+                    break; // Stop after finding the first non-empty major
+                }
+            }
+        }
+
+        // Determine parenthetical based on available information
+        if (degree && major) {
+            title += ` (${degree} - ${major})`;
+        } else if (degree) {
+            title += ` (${degree})`;
+        } else if (submission.organization.name) {
+            title += ` (${submission.organization.name})`;
+        }
+
+        return title;
+    };
+
     SubmissionRepo.fetchSubmissionById($routeParams.id).then(function(submission) {
 
         $scope.submission = submission;
+        $scope.submission.enableListeners();
 
         $scope.loaded = true;
 
@@ -85,8 +131,6 @@ vireo.controller("AdminSubmissionViewController", function ($anchorScroll, $cont
             var apiRes = angular.fromJson(res.body);
             surgicalFieldValueUpdate(apiRes.payload.Submission);
         });
-
-        $scope.title = $scope.submission.submitter.lastName + ', ' + $scope.submission.submitter.firstName + ' (' + $scope.submission.organization.name + ')';
 
         $scope.submission.fetchDocumentTypeFileInfo();
 
@@ -338,12 +382,10 @@ vireo.controller("AdminSubmissionViewController", function ($anchorScroll, $cont
         };
 
         $scope.getPattern = function (doctype) {
-            var pattern = "*";
             var fieldPredicate;
-            var i;
 
-            for(i in $scope.fieldPredicates) {
-                if($scope.fieldPredicates[i].value === doctype) {
+            for (var i in $scope.fieldPredicates) {
+                if ($scope.fieldPredicates[i].value === doctype) {
                     fieldPredicate = $scope.fieldPredicates[i];
                     break;
                 }
@@ -351,17 +393,11 @@ vireo.controller("AdminSubmissionViewController", function ($anchorScroll, $cont
 
             if (fieldPredicate !== undefined) {
                 var fieldProfile = $scope.submission.getFieldProfileByPredicate(fieldPredicate);
-                if (angular.isDefined(fieldProfile.controlledVocabulary)) {
-                    var cv = fieldProfile.controlledVocabulary;
-                    pattern = "";
-                    for (i in cv.dictionary) {
-                        var word = cv.dictionary[i];
-                        pattern += pattern.length > 0 ? (",." + word.name) : ("." + word.name);
-                    }
-                }
+
+                return FileUploadService.getPattern(fieldProfile);
             }
 
-            return pattern;
+            return '*';
         };
 
         $scope.queueUpload = function (files) {
@@ -589,14 +625,18 @@ vireo.controller("AdminSubmissionViewController", function ($anchorScroll, $cont
             "hasPrimaryDocument": $scope.hasPrimaryDocument
         };
 
+        var getLastActionLog = function() {
+            if ($scope.submission.actionLogs.length > 0) {
+                return $filter('orderBy')($scope.submission.actionLogs, 'actionDate', true)[0];
+            }
+        }
+
         var getLastActionDate = function() {
-            var index = $scope.submission.actionLogs.length - 1;
-            return $scope.submission.actionLogs[index].actionDate;
+            return getLastActionLog().actionDate;
         };
 
         var getLastActionEntry = function() {
-            var index = $scope.submission.actionLogs.length - 1;
-            return $scope.submission.actionLogs[index].entry;
+            return getLastActionLog().entry;
         };
 
         var isUmiRelease = function() {

@@ -3,6 +3,7 @@ package org.tdl.vireo.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -32,6 +33,10 @@ public class EmailRecipientContactTest extends AbstractModelTest<EmailRecipientC
 
         emails.add("first@example.com");
         emails.add("second@example.com");
+
+        // expected, actual
+        assertEquals(2, emails.size(), "Expected emails are not as expected.");
+
         otherFieldValue.setId(1L);
         otherFieldValue.setValue("value1");
         fieldValue.setId(2L);
@@ -41,13 +46,16 @@ public class EmailRecipientContactTest extends AbstractModelTest<EmailRecipientC
         fieldValues.add(otherFieldValue);
         fieldPredicate.setId(1L);
 
+        fieldPredicate.setValue("fp_value");
+
         ReflectionTestUtils.setField(emailRecipientContact, "fieldPredicate", fieldPredicate);
 
-        when(submission.getFieldValuesByPredicate(any(FieldPredicate.class))).thenReturn(fieldValues);
+        when(submission.getFieldValuesByPredicateValue(anyString())).thenReturn(fieldValues);
 
         List<String> got = emailRecipientContact.getEmails(submission);
 
-        assertEquals(got.size(), emails.size(), "Emails array does not have the correct length.");
+        // expected, actual
+        assertEquals(emails.size(), got.size(), "Emails array does not have the correct length.");
 
         emails.forEach(email -> {
             String found = null;

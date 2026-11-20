@@ -24,7 +24,7 @@ import org.tdl.vireo.model.Submission;
 import org.tdl.vireo.model.SubmissionListColumn;
 import org.tdl.vireo.model.export.ExcelExportPackage;
 import org.tdl.vireo.model.formatter.AbstractFormatter;
-
+import org.tdl.vireo.model.ActionLog;
 import edu.tamu.weaver.data.utility.EntityUtility;
 
 @Entity
@@ -49,12 +49,12 @@ public class ExcelPackager extends AbstractPackager<ExcelExportPackage> {
 
     @Override
     public String getMimeType() {
-        return "application/vnd.ms-excel";
+        return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     }
 
     @Override
     public String getFileExtension() {
-        return "xls";
+        return "xlsx";
     }
 
     @Override
@@ -85,7 +85,7 @@ public class ExcelPackager extends AbstractPackager<ExcelExportPackage> {
                         }
                         Object valueAsObject = EntityUtility.getValueFromPath(submission, valuePath);
 
-                        String value;
+                        String value = "";
 
                         if (valueAsObject instanceof Calendar) {
                             Calendar calendar = (Calendar) valueAsObject;
@@ -111,6 +111,19 @@ public class ExcelPackager extends AbstractPackager<ExcelExportPackage> {
                         } else if (valueAsObject instanceof User){
                             User user = (User) valueAsObject;
                             value = user.getName().toString();
+                        } else if (valueAsObject instanceof ActionLog){
+                            ActionLog actionLog = (ActionLog) valueAsObject;
+                            switch (column.getTitle()){
+                                case "Event Time":
+                                    Calendar actionDate = (Calendar) actionLog.getActionDate();
+                                    value = simpleDateFormat.format(actionDate.getTime());
+                                    break;
+                                case "Last Event":
+                                    value = actionLog.getEntry().toString();
+                                    break;
+                                default:
+                                    break;
+                            }
                         } else {
                             value = valueAsObject.toString();
                         }

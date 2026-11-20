@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +43,7 @@ import org.tdl.vireo.model.repo.WorkflowStepRepo;
 @ActiveProfiles(value = { "test", "isolated-test" })
 @SpringBootTest(classes = { Application.class })
 @Transactional(propagation = Propagation.REQUIRES_NEW)
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class SystemDataLoaderTest {
 
     @Autowired
@@ -187,14 +190,14 @@ public class SystemDataLoaderTest {
     }
 
     private void assertEmailTemplate(boolean isReload) {
-        assertEquals(7, emailTemplateRepo.count(),
+        assertEquals(19, emailTemplateRepo.count(),
             isReload
                 ? "Incorrect number of emailTemplate found after reload"
                 : "Incorrect number of emailTemplate found");
     }
 
     private void assertAbstractEmailRecipient(boolean isReload) {
-        assertEquals(2, abstractEmailRecipientRepo.count(),
+        assertEquals(3, abstractEmailRecipientRepo.count(),
             isReload
                 ? "Incorrect number of abstractEmailRecipient found after reload"
                 : "Incorrect number of abstractEmailRecipient found");
@@ -274,7 +277,7 @@ public class SystemDataLoaderTest {
                 ? "Incorrect number of workflowStep found after reload"
                 : "Incorrect number of workflowStep found");
 
-        
+
         assertWorkflowStepHeritableProperties(new int[] { 3, 18 }, "Personal Information", isReload);
         assertWorkflowStepHeritableProperties(new int[] { 0, 2 }, "License Agreement", isReload);
         assertWorkflowStepHeritableProperties(new int[] { 4, 13 }, "Document Information", isReload);
@@ -480,19 +483,19 @@ public class SystemDataLoaderTest {
 
     private void assertSubmissionStatusTransitions(String[] expected, SubmissionStatus actual, boolean isReload) {
         assertEquals(expected.length, actual.getTransitionSubmissionStatuses().size(),
-                isReload 
+                isReload
                     ? String.format("%s submission status has incorrect number of transition status after reload", actual.getName())
                     : String.format("%s submission status has incorrect number of transition status", actual.getName()));
         for (String name : expected) {
             assertTrue(actual.getTransitionSubmissionStatuses().stream().anyMatch(ts -> ts.getName().equals(name)),
-                isReload 
+                isReload
                     ? String.format("%s submission status is missing %s transition status after reload", actual.getName(), name)
                     : String.format("%s submission status is missing %s transition status", actual.getName(), name));
         }
     }
 
     private void assertSubmissionListColumn(boolean isReload) {
-        assertEquals(59, submissionListColumnRepo.count(),
+        assertEquals(63, submissionListColumnRepo.count(),
             isReload
                 ? "Incorrect number of submissionListColumn found after reload"
                 : "Incorrect number of submissionListColumn found");

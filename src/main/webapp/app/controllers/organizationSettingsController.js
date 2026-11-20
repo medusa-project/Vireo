@@ -1,4 +1,4 @@
-vireo.controller('OrganizationSettingsController', function ($controller, $scope, $q, AccordionService, Organization, OrganizationRepo, SidebarService) {
+vireo.controller('OrganizationSettingsController', function ($controller, $scope, $timeout, $q, AccordionService, Organization, OrganizationRepo, SidebarService) {
 
     angular.extend(this, $controller('AbstractController', {
         $scope: $scope
@@ -40,7 +40,8 @@ vireo.controller('OrganizationSettingsController', function ($controller, $scope
 
     $scope.getSelectedOrganizationEmailWorkflowRules = function () {
         if ($scope.getSelectedOrganizationId()) {
-            return $scope.selectedOrganization.emailWorkflowRules;
+            return ($scope.selectedOrganization?.emailWorkflowRules || [])
+                .concat($scope.selectedOrganization?.emailWorkflowRulesByAction || []);
         }
     };
 
@@ -80,6 +81,16 @@ vireo.controller('OrganizationSettingsController', function ($controller, $scope
         if ($scope.loadingOrganization) {
             return;
         }
+
+        const focusSelected = () => {
+            $timeout(function () {
+                const selectedElement = document.getElementById(`organization-${$scope.selectedOrganization.id}`);
+
+                if (selectedElement && selectedElement !== document.activeElement) {
+                    selectedElement.focus();
+                }
+            });
+        };
 
         $scope.loadingOrganization = true;
 
@@ -133,6 +144,8 @@ vireo.controller('OrganizationSettingsController', function ($controller, $scope
                         if (!existingSelected || existingSelected.id !== organization.id) {
                             AccordionService.closeAll();
                         }
+
+                        focusSelected();
                     }
 
                     $scope.setDeleteDisabled();
@@ -151,6 +164,8 @@ vireo.controller('OrganizationSettingsController', function ($controller, $scope
                 if (!existingSelected || existingSelected.id !== organization.id) {
                     AccordionService.closeAll();
                 }
+
+                focusSelected();
             }
         } else {
             $scope.selectedOrganization = undefined;

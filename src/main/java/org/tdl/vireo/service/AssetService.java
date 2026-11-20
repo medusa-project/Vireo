@@ -157,12 +157,10 @@ public class AssetService {
 
         Calendar creationDate = Calendar.getInstance();
 
+        //current hack to find action_logs based on migrated file dates
         creationDate.setTimeInMillis(attr.creationTime().toMillis());
 
-        // current best hack to identify the user whom originally uploaded the file
-        String fileIdentifier = (name + " (" + readableFileSize + ")").replace("archived-", "");
-
-        Page<ActionLog> actionLogs = actionLogRepo.findBySubmissionIdAndEntryLikeAndBeforeActionDate(submission.getId(), fileIdentifier, creationDate, PageRequest.of(0, 1));
+        Page<ActionLog> actionLogs = actionLogRepo.findBySubmissionIdAndEntryLikeAndBeforeActionDate(submission.getId(), name, creationDate, PageRequest.of(0, 1));
 
         if (!actionLogs.isEmpty()) {
             fileInfo.put("uploader", actionLogs.getContent().get(0).getUser().getName());

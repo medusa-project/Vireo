@@ -466,9 +466,16 @@ describe('model: Submission', function () {
             model.removeAllUnsavedFieldValuesByPredicate(model.fieldValues[0].fieldPredicate);
         });*/
         it('removeFieldValue should call WsApi', function () {
-            spyOn(WsApi, "fetch");
+            var mfv = new mockFieldValue(q);
 
-            model.removeFieldValue(new mockFieldValue(q));
+            spyOn(WsApi, "fetch").and.returnValue(Promise.resolve({
+                body: JSON.stringify({
+                    meta: { status: 'SUCCESS' },
+                    payload: mfv
+                })
+            }));
+
+            model.removeFieldValue(mfv);
             scope.$apply();
 
             expect(WsApi.fetch).toHaveBeenCalled();
@@ -615,7 +622,17 @@ describe('model: Submission', function () {
             var fieldProfile = new mockFieldProfile(q);
             fieldProfile.optional = false;
             fieldProfile.enabled = true;
+
             model.isValid = null;
+            model.getMapping = function () {
+                return {
+                    validateFieldValue: {
+                        endpoint: "/private/queue",
+                        controller: "fake",
+                        method: "fake"
+                    }
+                };
+            };
 
             model.validate();
             scope.$apply();
@@ -625,6 +642,7 @@ describe('model: Submission', function () {
             model.fieldValues[0].fieldPredicate = new mockFieldPredicate(q);
             model.fieldValues[1].fieldPredicate = new mockFieldPredicate(q);
             model.fieldValues[1].mock(dataFieldValue2);
+            model.fieldValues[1].value = "";
             model.submissionWorkflowSteps = [ new mockWorkflowStep(q), new mockWorkflowStep(q) ];
             model.submissionWorkflowSteps[1].mock(dataWorkflowStep2);
             model.submissionWorkflowSteps[1].aggregateFieldProfiles[0] = fieldProfile;

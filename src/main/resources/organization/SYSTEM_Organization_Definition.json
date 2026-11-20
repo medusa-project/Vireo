@@ -113,7 +113,7 @@
           },
           "mappedShibAttribute": {
             "isSystemRequired": true,
-            "name": "APPLICATION_AUTH_SHIB_ATTRIBUTE_EMAIL",
+            "name": "auth.shib.attribute.email",
             "type": "shibboleth",
             "value": "email"
           },
@@ -160,7 +160,7 @@
           },
           "mappedShibAttribute": {
             "isSystemRequired": true,
-            "name": "APPLICATION_AUTH_SHIB_ATTRIBUTE_INSTITUTIONAL_IDENTIFIER",
+            "name": "auth.shib.attribute.institutionalIdentifier",
             "type": "shibboleth",
             "value": "uin"
           },
@@ -1050,6 +1050,128 @@
       "recipientType": 1,
       "emailTemplate": {
         "name": "SYSTEM Initial Submission",
+        "systemRequired": true
+      }
+    }
+  ],
+  "emailWorkflowRulesByAction": [
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "STUDENT_MESSAGE",
+      "recipientType": 0,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Assignee of Student Comment",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "STUDENT_MESSAGE",
+      "recipientType": 1,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Advisor of Student Comment",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "ADVISOR_MESSAGE",
+      "recipientType": 5,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Submitter of Advisor Comment",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "ADVISOR_MESSAGE",
+      "recipientType": 0,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Assignee of Advisor Comment",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "ADVISOR_APPROVE_SUBMISSION",
+      "recipientType": 5,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Submitter of Advisor Approved Submission",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "ADVISOR_APPROVE_SUBMISSION",
+      "recipientType": 0,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Assignee of Advisor Approved Submission",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "ADVISOR_CLEAR_APPROVE_SUBMISSION",
+      "recipientType": 5,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Submitter of Advisor Cleared Submission Approval",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "ADVISOR_CLEAR_APPROVE_SUBMISSION",
+      "recipientType": 0,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Assignee of Advisor Cleared Submission Approval",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "ADVISOR_APPROVE_EMBARGO",
+      "recipientType": 5,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Submitter of Advisor Approved Embargo",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "ADVISOR_APPROVE_EMBARGO",
+      "recipientType": 0,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Assignee of Advisor Approved Embargo",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "ADVISOR_CLEAR_APPROVE_EMBARGO",
+      "recipientType": 5,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Submitter of Advisor Cleared Embargo Approval",
+        "systemRequired": true
+      }
+    },
+    {
+      "isSystem": true,
+      "isDisabled": true,
+      "action": "ADVISOR_CLEAR_APPROVE_EMBARGO",
+      "recipientType": 0,
+      "emailTemplate": {
+        "name": "SYSTEM Notify Assignee of Advisor Cleared Embargo Approval",
         "systemRequired": true
       }
     }
